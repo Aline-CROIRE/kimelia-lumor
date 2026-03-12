@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 
+const authRoutes = require('./routes/authRoutes');
+
 // Initialize Express App
 const app = express();
 
@@ -25,6 +27,8 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Routes
+app.use('/api/auth', authRoutes);
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
