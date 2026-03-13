@@ -18,7 +18,7 @@ const lessonRoutes = require('./routes/lessonRoutes');
 const quizRoutes = require('./routes/quizRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-
+const assignmentRoutes = require('./routes/assignmentRoutes');
 
 
 
@@ -45,8 +45,7 @@ app.use('/api/users', userRoutes);
 app.use('/api', lessonRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
-
-
+app.use('/api', assignmentRoutes)
 app.use('/api', quizRoutes);
 
 const PORT = process.env.PORT || 5000;

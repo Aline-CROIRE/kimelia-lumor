@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   points: { type: Number, default: 0 },
-  preferredLanguage: { type: String, enum: ['en', 'fr', 'rw'], default: 'en' }
+  preferredLanguage: { type: String, enum: ['en', 'fr', 'rw'], default: 'en' },
+  streak: { type: Number, default: 0 },
+lastLoginDate: { type: Date, default: Date.now },
 }, { timestamps: true });
 
 // Pre-save hook to hash the password before saving to the database
