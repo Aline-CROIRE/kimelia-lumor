@@ -15,6 +15,7 @@ const courseRoutes = require('./routes/courseRoutes');
 const aiRoutes = require('./routes/aiRoutes')
 const userRoutes = require('./routes/userRoutes');
 const lessonRoutes = require('./routes/lessonRoutes');
+const quizRoutes = require('./routes/quizRoutes');
 
 
 
@@ -40,6 +41,9 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api', lessonRoutes);
+
+
+app.use('/api', quizRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
