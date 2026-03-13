@@ -17,7 +17,10 @@ const options = {
         url: 'http://localhost:5000',
         description: 'Development Server',
       },
-      // We will add the Production server URL here later when we deploy!
+      {
+    url: 'https://https://kimelia-lumor.onrender.com', // Replace with your actual Render URL
+    description: 'Production Server',
+  },
     ],
     components: {
       securitySchemes: {
