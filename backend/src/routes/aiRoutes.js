@@ -1,46 +1,16 @@
 const express = require('express');
 const { askAIAssistant } = require('../controllers/aiController');
 const { protect } = require('../middlewares/authMiddleware');
+const rateLimit = require('express-rate-limit'); // NOW THIS WILL WORK
 
 const router = express.Router();
 
-/**
- * @swagger
- * tags:
- *   name: AI Assistant
- *   description: AI-powered study help and logging
- */
+const aiLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, 
+  max: 50, 
+  message: { message: 'AI limit reached. Please try again in an hour.' },
+});
 
-/**
- * @swagger
- * /api/ai/ask:
- *   post:
- *     summary: Ask a question to the Kimelia Lumora AI Assistant
- *     tags: [AI Assistant]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - question
- *             properties:
- *               question:
- *                 type: string
- *                 description: The study question
- *               language:
- *                 type: string
- *                 description: Language code (en, fr, rw)
- *                 default: en
- *     responses:
- *       200:
- *         description: AI response generated successfully
- *       401:
- *         description: Unauthorized (Requires JWT token)
- */
-router.route('/ask').post(protect, askAIAssistant);
+router.route('/ask').post(protect, aiLimiter, askAIAssistant);
 
 module.exports = router;
