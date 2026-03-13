@@ -5,32 +5,32 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
 
+// --- SWAGGER IMPORTS ---
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/swagger');
+
 const authRoutes = require('./routes/authRoutes');
 
-// Initialize Express App
 const app = express();
-
-// Connect to Database
 connectDB();
 
-// Middlewares
-app.use(express.json()); // Parses incoming JSON requests
-app.use(cors()); // Allows Flutter app to communicate with API
-app.use(helmet()); // Secures HTTP headers
-app.use(morgan('dev')); // Logs requests to the console
+app.use(express.json());
+app.use(cors());
+app.use(helmet());
+app.use(morgan('dev'));
 
-// Basic Health Check Route
+// --- SWAGGER ROUTE ---
+// This creates the /api/docs endpoint where your Swagger UI will live
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'success', 
-    message: 'Kimelia Lumora API is running flawlessly! 🚀' 
-  });
+  res.status(200).json({ status: 'success', message: 'API is running!' });
 });
 
-// Routes
 app.use('/api/auth', authRoutes);
-// Start Server
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Docs available at http://localhost:${PORT}/api/docs`); // <-- Add this log
 });
