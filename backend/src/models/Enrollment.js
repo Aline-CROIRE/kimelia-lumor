@@ -20,7 +20,10 @@ const enrollmentSchema = new mongoose.Schema({
   isCompleted: { 
     type: Boolean, 
     default: false 
-  }
+  },
+   completedLessons: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Lesson' }],
+  
+
 }, { timestamps: true });
 
 // Ensure a user can only enroll in a specific course once

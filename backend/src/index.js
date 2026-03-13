@@ -14,6 +14,7 @@ const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const aiRoutes = require('./routes/aiRoutes')
 const userRoutes = require('./routes/userRoutes');
+const lessonRoutes = require('./routes/lessonRoutes');
 
 
 
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api', lessonRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
