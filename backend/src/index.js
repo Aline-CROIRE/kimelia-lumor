@@ -25,11 +25,24 @@ const app = express();
 // Connect to Database
 connectDB();
 
-// --- SECURITY MIDDLEWARE ---
+// --- SECURITY & CORS MIDDLEWARE ---
 app.use(helmet()); 
 app.use(express.json({ limit: '10kb' })); 
-app.use(cors());
 app.use(morgan('dev'));
+
+// Enable CORS for all origins
+app.use(cors());
+
+// Middleware to explicitly handle OPTIONS requests (Pre-flight) without crashing the router
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.status(200).json({});
+  }
+  next();
+});
 
 // --- SWAGGER ROUTE ---
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -50,8 +63,10 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'success', message: 'Kimelia Lumora API is operational!' });
 });
 
+// Port configuration
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
   console.log(`Docs available at http://localhost:${PORT}/api/docs`);
 });
